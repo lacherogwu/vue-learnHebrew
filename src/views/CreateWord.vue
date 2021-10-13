@@ -1,6 +1,6 @@
 <template>
 	<Form class="mb-2" :handler="handler" @success="success" title="Create new word" successMessage="Word added successfully!" submitButtonText="Create">
-		<InputField ref="hebrewTranslation" v-model="formData.hebrewTranslation" element="input" required name="Hebrew Translation" />
+		<InputField v-model="formData.hebrewTranslation" element="input" required name="Hebrew Translation" />
 		<InputField v-model="formData.russianTranslation" element="input" required name="Russian Translation" />
 	</Form>
 
