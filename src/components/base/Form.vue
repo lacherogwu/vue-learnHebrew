@@ -4,11 +4,11 @@
 			<div class="text-xl font-medium">{{ title }}</div>
 			<div class="border mt-2 mb-4"></div>
 		</div>
-		<form class="space-y-4 flex justify-center flex-col" @submit.prevent="submit">
+		<form class="space-y-4 flex flex-col justify-center" @submit.prevent="submit">
 			<slot />
-			<AppButton submit :title="submitButtonText" :loading="loading" />
-			<div class="text-center" :class="{ 'text-red-500': isError, 'text-green-500': !isError }">{{ feedback }}</div>
+			<AppButton submit :title="submitButtonText" :loading="loading" :disabled="!meta.valid" />
 		</form>
+		<div class="text-center py-2" :class="{ 'text-red-500': isError, 'text-green-500': !isError }">{{ feedback }}</div>
 	</div>
 </template>
 
@@ -20,6 +20,7 @@ export default {
 
 <script setup>
 import { ref } from 'vue';
+import { useForm } from 'vee-validate';
 
 const emit = defineEmits(['success']);
 const props = defineProps({
@@ -41,14 +42,14 @@ const props = defineProps({
 	},
 });
 
+const { meta } = useForm();
+
 const loading = ref(false);
 const feedback = ref();
 const isError = ref(false);
-const isValid = ref(false);
 
 const submit = async () => {
-	// check if input doesn't have error
-	if (!isValid.value) return;
+	if (!meta.value.valid) return;
 
 	loading.value = true;
 	feedback.value = null;
@@ -58,6 +59,7 @@ const submit = async () => {
 		const response = await props.handler();
 		emit('success', response);
 		feedback.value = props.successMessage;
+		meta.value.valid = false;
 	} catch (err) {
 		console.log(err);
 		isError.value = true;
