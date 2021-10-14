@@ -3,6 +3,7 @@ import Home from '../views/Home.vue';
 import About from '../views/About.vue';
 import Words from '../views/Words.vue';
 import CreateWord from '../views/CreateWord.vue';
+import Learn from '../views/Learn.vue';
 
 const router = createRouter({
 	history: createWebHistory(),
@@ -26,6 +27,11 @@ const router = createRouter({
 			path: '/words/create',
 			name: 'Create Word',
 			component: CreateWord,
+		},
+		{
+			path: '/learn',
+			name: 'Learn',
+			component: Learn,
 		},
 	],
 });

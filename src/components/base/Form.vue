@@ -19,7 +19,7 @@ export default {
 </script>
 
 <script setup>
-import { defineProps, defineEmits, ref } from 'vue';
+import { ref } from 'vue';
 
 const emit = defineEmits(['success']);
 const props = defineProps({
@@ -44,8 +44,12 @@ const props = defineProps({
 const loading = ref(false);
 const feedback = ref();
 const isError = ref(false);
+const isValid = ref(false);
 
 const submit = async () => {
+	// check if input doesn't have error
+	if (!isValid.value) return;
+
 	loading.value = true;
 	feedback.value = null;
 	isError.value = false;

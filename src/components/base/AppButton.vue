@@ -4,8 +4,7 @@
 			{{ title }}
 		</span>
 		<span v-else>
-			Loading...
-			<!-- <font-awesome-icon icon="circle-notch" spin size="lg" /> -->
+			<FontAwesomeIcon icon="circle-notch" spin size="lg" />
 		</span>
 	</button>
 </template>
@@ -17,8 +16,6 @@ export default {
 </script>
 
 <script setup>
-import { defineProps } from 'vue';
-
 const props = defineProps({
 	title: {
 		type: String,

@@ -1,6 +1,6 @@
 <template>
 	<Form class="mb-2" :handler="handler" @success="success" title="Create new word" successMessage="Word added successfully!" submitButtonText="Create">
-		<InputField v-model="formData.hebrewTranslation" element="input" required name="Hebrew Translation" />
+		<InputField v-model="formData.hebrewTranslation" element="input" required name="Hebrew Translation" :validation="validationRules.hebrewLettersValidation" />
 		<InputField v-model="formData.russianTranslation" element="input" required name="Russian Translation" />
 	</Form>
 
@@ -16,6 +16,10 @@ import VowelKeyboard from '../components/VowelKeyboard.vue';
 const formData = reactive({
 	hebrewTranslation: '',
 	russianTranslation: '',
+});
+
+const validationRules = reactive({
+	hebrewLettersValidation: val => /^[\u0590-\u05fe\s]+$/.test(val) || 'Only Hebrew letters are allowed',
 });
 
 const handler = () => createWord(formData);
