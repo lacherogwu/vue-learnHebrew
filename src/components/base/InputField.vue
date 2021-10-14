@@ -20,6 +20,7 @@
 			cols="30"
 			rows="10"
 			class="shadow border rounded w-full py-4 px-6 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:border-gray-500 dark:text-gray-300"
+			:class="{ 'ring-1': errorMessage, 'ring-red-500': errorMessage }"
 			:placeholder="name"
 		></textarea>
 
@@ -29,6 +30,7 @@
 			v-model="inputValue"
 			:required="required"
 			class="shadow border rounded w-full py-4 px-6 leading-tight text-gray-700 focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:border-gray-500 dark:text-gray-300"
+			:class="{ 'ring-1': errorMessage, 'ring-red-500': errorMessage }"
 		>
 			<option value disabled selected hidden class="text-gray-700 dark:text-gray-300">{{ name }}</option>
 

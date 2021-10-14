@@ -1,5 +1,5 @@
 import app from '../firebase/init.js';
-import { getFirestore, collection, getDocs, doc, addDoc } from 'firebase/firestore/lite';
+import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc } from 'firebase/firestore/lite';
 
 const db = getFirestore(app);
 
@@ -22,4 +22,9 @@ const createWord = async ({ hebrewTranslation, russianTranslation }) => {
 	});
 };
 
-export { getWords, createWord };
+const removeWord = async ({ id }) => {
+	const ref = doc(db, 'words', id);
+	await deleteDoc(ref);
+};
+
+export { getWords, createWord, removeWord };

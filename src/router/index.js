@@ -3,6 +3,7 @@ import Home from '../views/Home.vue';
 import About from '../views/About.vue';
 import Words from '../views/Words.vue';
 import CreateWord from '../views/CreateWord.vue';
+import UpdateWord from '../views/UpdateWord.vue';
 import Learn from '../views/Learn.vue';
 
 const router = createRouter({
@@ -27,6 +28,11 @@ const router = createRouter({
 			path: '/words/create',
 			name: 'Create Word',
 			component: CreateWord,
+		},
+		{
+			path: '/words/update/:id',
+			name: 'Update Word',
+			component: UpdateWord,
 		},
 		{
 			path: '/learn',

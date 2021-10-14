@@ -6,7 +6,7 @@
 		</div>
 		<form class="space-y-4 flex flex-col justify-center" @submit.prevent="submit">
 			<slot />
-			<AppButton submit :title="submitButtonText" :loading="loading" :disabled="!meta.valid" />
+			<AppButton type="submit" :title="submitButtonText" :loading="loading" :disabled="!meta.valid" />
 		</form>
 		<div class="text-center py-2" :class="{ 'text-red-500': isError, 'text-green-500': !isError }">{{ feedback }}</div>
 	</div>
