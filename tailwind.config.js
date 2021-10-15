@@ -1,6 +1,6 @@
 module.exports = {
 	purge: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
-	darkMode: false,
+	darkMode: 'class',
 	theme: {
 		extend: {
 			height: {
@@ -13,7 +13,6 @@ module.exports = {
 				'70v': '70vh',
 				'80v': '80vh',
 				'90v': '90vh',
-				'100v': '100vh',
 			},
 			maxHeight: {
 				'10v': '10vh',
@@ -25,7 +24,11 @@ module.exports = {
 				'70v': '70vh',
 				'80v': '80vh',
 				'90v': '90vh',
-				'100v': '100vh',
+			},
+			colors: {
+				red: {
+					dark: '#a32828',
+				},
 			},
 		},
 	},
@@ -34,6 +37,7 @@ module.exports = {
 			cursor: ['disabled'],
 			backgroundColor: ['disabled'],
 			textColor: ['disabled'],
+			translate: ['dark'],
 		},
 	},
 	plugins: [],

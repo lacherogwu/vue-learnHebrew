@@ -2,11 +2,7 @@
 	<Form v-if="!fetching" class="mb-4" :handler="handler" @success="success" title="Update word" successMessage="Word updated successfully!" submitButtonText="Update">
 		<InputField v-model="formData.hebrewTranslation" element="input" required name="Hebrew Translation" :validation="rules.hebrewLettersValidation" />
 		<InputField v-model="formData.russianTranslation" element="input" required name="Russian Translation" :validation="rules.russianLettersValidation" />
-		<div
-			class="px-4 py-2 inline-flex leading-5 font-semibold rounded justify-center cursor-pointer select-none border border-gray-100 shadow-sm"
-			:class="{ 'bg-green-100': formData.show, 'text-green-800': formData.show, 'bg-red-100': !formData.show, 'text-red-800': !formData.show }"
-			@click="formData.show = !formData.show"
-		>
+		<div :class="`px-4 py-2 inline-flex leading-5 font-semibold rounded justify-center cursor-pointer select-none border border-gray-100 dark:border-gray-700 shadow-sm ${formData.show ? 'bg-green-100 text-green-800 dark:bg-green-600 dark:text-green-100' : 'bg-red-100 text-red-800 dark:bg-red-dark dark:text-red-100'}`" @click="formData.show = !formData.show">
 			{{ formData.show ? 'Show' : "Don't show" }}
 		</div>
 	</Form>

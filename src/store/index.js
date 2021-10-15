@@ -7,6 +7,7 @@ const store = createStore({
 			message: null,
 			error: false,
 		},
+		darkMode: JSON.parse(localStorage.getItem('darkMode')),
 	}),
 	mutations: {
 		clearToast(state, data) {
@@ -25,6 +26,10 @@ const store = createStore({
 			state.toast.show = true;
 
 			setTimeout(() => this.commit('clearToast'), 2000);
+		},
+		toggleDarkMode(state) {
+			state.darkMode = !state.darkMode;
+			localStorage.setItem('darkMode', state.darkMode);
 		},
 	},
 });

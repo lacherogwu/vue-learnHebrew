@@ -13,6 +13,8 @@
 		disabled:cursor-default 
 		disabled:bg-gray-200 
 		disabled:text-gray-500 
+		 dark:disabled:bg-gray-700
+		 dark:disabled:text-gray-200
 		w-full 
 		inline-flex 
 		justify-center 
