@@ -1,8 +1,9 @@
 <template>
-	<div class="fixed w-full h-12 shadow flex justify-center items-center space-x-4 dark:bg-gray-700 dark:text-gray-100">
-		<router-link to="/">Home</router-link>
-		<router-link to="/learn">Learn</router-link>
-		<router-link to="/words">Words List</router-link>
+	<div class="fixed w-full h-12 px-4 shadow flex justify-between items-center space-x-4 dark:bg-gray-700 dark:text-gray-100">
+		<div class="inline-flex space-x-2">
+			<router-link class="border-b border-gray-800 dark:border-gray-100" to="/learn">Learn</router-link>
+			<router-link to="/words">Words List</router-link>
+		</div>
 		<ThemeSwitcher design="2" />
 	</div>
 </template>
