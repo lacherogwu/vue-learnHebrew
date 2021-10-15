@@ -85,7 +85,9 @@ const props = defineProps({
 	},
 });
 
-const { value, errorMessage } = useField(_.camelCase(props.name), props.validation);
+const { value, errorMessage } = useField(_.camelCase(props.name), props.validation, {
+	initialValue: props.modelValue,
+});
 
 const inputValue = computed({
 	get() {

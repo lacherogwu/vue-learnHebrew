@@ -1,5 +1,5 @@
 <template>
-	<Form class="mb-2" :handler="handler" @success="success" title="Create new word" submitButtonText="Create">
+	<Form class="mb-4" :handler="handler" @success="success" title="Create new word" submitButtonText="Create" successMessage="Word added successfully!">
 		<InputField v-model="formData.hebrewTranslation" element="input" required name="Hebrew Translation" :validation="rules.hebrewLettersValidation" />
 		<InputField v-model="formData.russianTranslation" element="input" required name="Russian Translation" :validation="rules.russianLettersValidation" />
 	</Form>
@@ -9,12 +9,9 @@
 <script setup>
 import { reactive } from 'vue';
 import { resetReactive } from '../utils';
-import { useStore } from 'vuex';
 import { createWord } from '../api/firebase';
 import VowelKeyboard from '../components/VowelKeyboard.vue';
 import { rules } from '../utils/validations.js';
-
-const store = useStore();
 
 const formData = reactive({
 	hebrewTranslation: '',
@@ -24,7 +21,6 @@ const formData = reactive({
 const handler = () => createWord(formData);
 
 const success = data => {
-	store.commit('toggleToast', { message: 'Word added successfully!' });
 	resetReactive(formData);
 };
 

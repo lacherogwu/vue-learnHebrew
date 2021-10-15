@@ -8,7 +8,7 @@
 			<slot />
 			<AppButton type="submit" :title="submitButtonText" :loading="loading" :disabled="!meta.valid" />
 		</form>
-		<div class="text-center py-2" :class="{ 'text-red-500': isError, 'text-green-500': !isError }">{{ feedback }}</div>
+		<!-- <div class="text-center py-2" :class="{ 'text-red-500': isError, 'text-green-500': !isError }">{{ feedback }}</div> -->
 	</div>
 </template>
 
@@ -21,6 +21,9 @@ export default {
 <script setup>
 import { ref } from 'vue';
 import { useForm } from 'vee-validate';
+import { useStore } from 'vuex';
+
+const store = useStore();
 
 const emit = defineEmits(['success']);
 const props = defineProps({
@@ -45,25 +48,29 @@ const props = defineProps({
 const { meta } = useForm();
 
 const loading = ref(false);
-const feedback = ref();
-const isError = ref(false);
+// const feedback = ref();
+// const isError = ref(false);
 
 const submit = async () => {
 	if (!meta.value.valid) return;
 
 	loading.value = true;
-	feedback.value = null;
-	isError.value = false;
+	// feedback.value = null;
+	// isError.value = false;
 
 	try {
 		const response = await props.handler();
 		emit('success', response);
-		feedback.value = props.successMessage;
+		store.commit('toggleToast', { message: props.successMessage });
+
+		// feedback.value = props.successMessage;
 		meta.value.valid = false;
 	} catch (err) {
 		console.log(err);
-		isError.value = true;
-		feedback.value = err?.response?.data?.message || 'Something went wrong!';
+		store.commit('toggleToast', { message: 'Something went wrong!', error: true });
+
+		// isError.value = true;
+		// feedback.value = err?.response?.data?.message || 'Something went wrong!';
 	}
 
 	loading.value = false;

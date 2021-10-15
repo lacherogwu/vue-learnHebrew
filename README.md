@@ -4,17 +4,19 @@
 
 [x] Store information
 
-[ ] Management panel
+[x] Management panel
 
-[ x Add new words
+[x] Add new words
 
 [x] Create hebrew vowel screen
 
-[ ] Delete words
+[x] Delete words
 
-[ ] See all available words
+[x] See all available words
 
-[ ] Search between all available words and to update if to show them or not
+[x] Update words
+
+[ ] Filter/search words list
 
 [ ] Frontend application that shows all the words with show = true
 

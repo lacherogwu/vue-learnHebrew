@@ -13,7 +13,7 @@
 							</tr>
 						</thead>
 						<tbody class="bg-white divide-y divide-gray-200">
-							<tr v-if="items.length" v-for="item in items" :key="items.id">
+							<tr v-for="item in items" :key="items.id">
 								<td class="px-6 md:py-4 whitespace-nowrap">
 									<div class="text-sm text-gray-900">{{ item.hebrewTranslation }}</div>
 									<div class="text-sm text-gray-500">{{ item.russianTranslation }}</div>
@@ -28,9 +28,11 @@
 									<FontAwesomeIcon icon="trash" class="text-red-500 hover:text-red-600 cursor-pointer" size="sm" @click="emit('action', 'remove', { id: item.id })" />
 								</td>
 							</tr>
-							<div v-else class="px-6 py-2">Loading...</div>
 						</tbody>
 					</table>
+					<div v-show="!items.length" class="px-6 py-4 text-center w-full">
+						<FontAwesomeIcon icon="spinner" spin size="lg" />
+					</div>
 				</div>
 			</div>
 		</div>

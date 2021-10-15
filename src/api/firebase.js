@@ -1,5 +1,5 @@
 import app from '../firebase/init.js';
-import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc } from 'firebase/firestore/lite';
+import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, getDoc, setDoc } from 'firebase/firestore/lite';
 
 const db = getFirestore(app);
 
@@ -27,4 +27,21 @@ const removeWord = async ({ id }) => {
 	await deleteDoc(ref);
 };
 
-export { getWords, createWord, removeWord };
+const getWord = async id => {
+	const ref = doc(db, 'words', id);
+	const snapshot = await getDoc(ref);
+	if (!snapshot.exists()) return;
+
+	return { id: snapshot.id, ...snapshot.data() };
+};
+
+const updateWord = async (id, { hebrewTranslation, russianTranslation, show }) => {
+	const ref = doc(db, 'words', id);
+	await setDoc(ref, {
+		hebrewTranslation,
+		russianTranslation,
+		show,
+	});
+};
+
+export { getWords, createWord, removeWord, getWord, updateWord };
