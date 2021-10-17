@@ -18,7 +18,6 @@
     "vee-validate": "^4.5.2",
     "vue": "^3.2.16",
     "vue-router": "^4.0.11",
-    "vue3-touch-events": "^4.1.0",
     "vuex": "^4.0.2"
   },
   "devDependencies": {
