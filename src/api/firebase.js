@@ -1,24 +1,29 @@
+import _ from 'lodash';
 import app from '../firebase/init.js';
-import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, getDoc, setDoc } from 'firebase/firestore/lite';
+import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, getDoc, setDoc, query, where } from 'firebase/firestore/lite';
 
 const db = getFirestore(app);
 
 const getCollection = collectionName => collection(db, collectionName);
 
-const getWords = async () => {
+const getWords = async (options = { where: [] }) => {
+	const whereQuery = _.map(options.where, item => where(item.field, item.operator, item.value));
 	const collection = getCollection('words');
-	const snapshot = await getDocs(collection);
+	const q = query(collection, ...whereQuery);
+
+	const snapshot = await getDocs(q);
 
 	const items = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
 	return items;
 };
 
-const createWord = async ({ hebrewTranslation, russianTranslation }) => {
+const createWord = async ({ hebrewTranslation, russianTranslation, topic }) => {
 	const collection = getCollection('words');
 	await addDoc(collection, {
 		hebrewTranslation,
 		russianTranslation,
 		show: true,
+		topic,
 	});
 };
 

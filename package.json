@@ -12,10 +12,13 @@
     "@fortawesome/vue-fontawesome": "^3.0.0-4",
     "axios": "^0.23.0",
     "firebase": "^9.1.2",
+    "interact.js": "^1.2.8",
     "lodash": "^4.17.21",
+    "sass": "^1.43.2",
     "vee-validate": "^4.5.2",
     "vue": "^3.2.16",
     "vue-router": "^4.0.11",
+    "vue3-touch-events": "^4.1.0",
     "vuex": "^4.0.2"
   },
   "devDependencies": {
