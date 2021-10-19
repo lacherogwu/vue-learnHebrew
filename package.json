@@ -1,31 +1,32 @@
 {
-  "name": "hebrew",
-  "version": "0.0.0",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "serve": "vite preview"
-  },
-  "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.36",
-    "@fortawesome/free-solid-svg-icons": "^5.15.4",
-    "@fortawesome/vue-fontawesome": "^3.0.0-4",
-    "axios": "^0.23.0",
-    "canvas-confetti": "^1.4.0",
-    "firebase": "^9.1.2",
-    "interact.js": "^1.2.8",
-    "lodash": "^4.17.21",
-    "sass": "^1.43.2",
-    "vee-validate": "^4.5.2",
-    "vue": "^3.2.16",
-    "vue-router": "^4.0.11",
-    "vuex": "^4.0.2"
-  },
-  "devDependencies": {
-    "@vitejs/plugin-vue": "^1.9.3",
-    "autoprefixer": "^10.3.7",
-    "postcss": "^8.3.9",
-    "tailwindcss": "^2.2.17",
-    "vite": "^2.6.4"
-  }
+	"name": "hebrew",
+	"version": "0.0.0",
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build",
+		"serve": "vite preview",
+		"deploy": "firebase deploy --only hosting"
+	},
+	"dependencies": {
+		"@fortawesome/fontawesome-svg-core": "^1.2.36",
+		"@fortawesome/free-solid-svg-icons": "^5.15.4",
+		"@fortawesome/vue-fontawesome": "^3.0.0-4",
+		"axios": "^0.23.0",
+		"canvas-confetti": "^1.4.0",
+		"firebase": "^9.1.2",
+		"interact.js": "^1.2.8",
+		"lodash": "^4.17.21",
+		"sass": "^1.43.2",
+		"vee-validate": "^4.5.2",
+		"vue": "^3.2.16",
+		"vue-router": "^4.0.11",
+		"vuex": "^4.0.2"
+	},
+	"devDependencies": {
+		"@vitejs/plugin-vue": "^1.9.3",
+		"autoprefixer": "^10.3.7",
+		"postcss": "^8.3.9",
+		"tailwindcss": "^2.2.17",
+		"vite": "^2.6.4"
+	}
 }
