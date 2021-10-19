@@ -26,9 +26,6 @@ import GameCardsStack from '../components/GameCardsStack.vue';
 import { getWords, unShowCard } from '../api/firebase';
 import { idMaker } from '../utils';
 
-// TODO: add blocks to choose words from which topic to learn
-// TODO: when all the words are swiped left = play sound + show picture
-
 const generateId = idMaker();
 const mapCard = card => ({ ...card, customId: generateId.next().value });
 

@@ -24,7 +24,7 @@
 									}}</span>
 								</td>
 								<td class="px-6 md:py-4 whitespace-nowrap">
-									<div class="text-sm text-gray-900 dark:text-gray-100">{{ item.topic }}</div>
+									<div class="text-sm text-gray-900 dark:text-gray-100">#{{ item.topic }}</div>
 								</td>
 								<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-1">
 									<router-link :to="`/words/update/${item.id}`">

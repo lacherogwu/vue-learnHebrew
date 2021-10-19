@@ -18,9 +18,13 @@
 
 [ ] Filter/search words list
 
-[ ] Frontend application that shows all the words with show = true
+[x] Frontend application that shows all the words with show = true
 
-[ ] Option to click the word to see the translation in Russian, swipe left if I want to keep the word in the loop, swipe right if I want to not show the word in the loop
+[x] Option to click the word to see the translation in Russian, swipe left if I want to keep the word in the loop, swipe right if I want to not show the word in the loop
+
+[ ] Show picture when all words completed
+
+[ ] add login & register
 
 ## Database Schema
 
