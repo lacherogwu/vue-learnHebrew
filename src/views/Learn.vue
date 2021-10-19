@@ -1,97 +1,120 @@
 <template>
 	<div class="max-w-md mx-auto" @wheel.prevent @touchmove.prevent @scroll.prevent>
-		<GameCardsStack :cards="visibleCards" @cardAccepted="handleCardAccepted" @cardRejected="handleCardRejected" @cardSkipped="handleCardSkipped" @hideCard="removeCardFromDeck" />
-
-		<!-- <AppButton class="mb-4" title="Repeat" @click="repeat" :disabled="words.length" />
-		<Card v-if="randomWord.id" :hebrewTranslation="randomWord.hebrewTranslation" :russianTranslation="randomWord.russianTranslation" v-touch:swipe="swipeHandler" />
-		{{ randomWord }} -->
+		<div v-if="!selectedTopic" class="grid grid-cols-3 gap-4 text-center">
+			<div v-for="(topic, index) in topicsList" :key="index" class="bg-gray-200 dark:bg-gray-600 p-4 rounded shadow cursor-pointer flex flex-col" @click="selectTopic(topic.name)">
+				<span>#{{ topic.name }}</span>
+				<span class="text-xs opacity-75">{{ topic.totalWords }} left</span>
+			</div>
+		</div>
+		<div v-if="selectedTopic">
+			<GameCardsStack :cards="visibleCards" @cardAccepted="handleCardAccepted" @cardRejected="handleCardRejected" @cardSkipped="handleCardSkipped" @hideCard="removeCardFromDeck" />
+			<div :class="{ 'text-white dark:text-gray-800': visibleCards.length }" class="flex flex-col justify-center items-center text-center space-y-4 transition ease-in-out duration-1000">
+				<span class="text-5xl">Congratulation!</span>
+				<span>You've completed all words for today!</span>
+				<span class="text-4xl py-8">Great Job!</span>
+				<AppButton :class="{ invisible: visibleCards.length }" title="Return to menu" @click="reset" />
+			</div>
+		</div>
 	</div>
 </template>
 
 <script setup>
-import GameCardsStack from '../components/GameCardsStack.vue';
-import { ref, onBeforeMount } from 'vue';
-import Card from '../components/Card.vue';
-import { getWords } from '../api/firebase';
-import { useStore } from 'vuex';
+import { ref, onBeforeMount, computed } from 'vue';
 import _ from 'lodash';
-import AppButton from '../components/base/AppButton.vue';
+import confetti from 'canvas-confetti';
+import GameCardsStack from '../components/GameCardsStack.vue';
+import { getWords, unShowCard } from '../api/firebase';
+import { idMaker } from '../utils';
 
 // TODO: add blocks to choose words from which topic to learn
-// TODO: swipe left, word = word.show = false
-// TODO: swipe right, word goes to the bottom stack
 // TODO: when all the words are swiped left = play sound + show picture
 
-const visibleCards = ref(['Test', 'Vue.js', 'Webpack']);
+const generateId = idMaker();
+const mapCard = card => ({ ...card, customId: generateId.next().value });
 
-const handleCardAccepted = () => {
-	console.log('handleCardAccepted');
+const words = ref([]);
+const visibleCards = ref([]);
+
+// card handlers
+const handleCardAccepted = ({ card }) => {
+	visibleCards.value.push(mapCard(card));
 };
 
-const handleCardRejected = () => {
-	console.log('handleCardRejected');
-
-	let src = 'https://freesound.org/data/previews/406/406371_7873941-lq.mp3';
-	let audio = new Audio(src);
-	audio.play();
+const handleCardRejected = async ({ card }) => {
+	await unShowCard(card.id);
 };
+
 const handleCardSkipped = () => {
 	console.log('handleCardSkipped');
 };
+
 const removeCardFromDeck = () => {
 	visibleCards.value.shift();
+
+	if (!visibleCards.value.length) {
+		const duration = 3 * 1000;
+		const end = Date.now() + duration;
+
+		(function frame() {
+			// launch a few confetti from the left edge
+			confetti({
+				particleCount: 7,
+				angle: 60,
+				spread: 55,
+				origin: { x: 0 },
+			});
+			// and launch a few from the right edge
+			confetti({
+				particleCount: 7,
+				angle: 120,
+				spread: 55,
+				origin: { x: 1 },
+			});
+
+			// keep going until we are out of time
+			if (Date.now() < end) {
+				requestAnimationFrame(frame);
+			}
+		})();
+	}
 };
 
-const store = useStore();
+const topicsList = ref([]);
+const selectedTopic = ref(null);
 
-const words = ref([]);
-const randomWord = ref({});
+const syncTopics = () => {
+	const topics = _(words.value)
+		.uniqBy('topic')
+		.map(item => {
+			const totalWords = _.filter(words.value, i => i.topic === item.topic).length;
+			return { name: item.topic, totalWords };
+		})
+		.value();
+
+	const all = { name: 'all', totalWords: words.value.length };
+	topicsList.value = [all, ...topics];
+};
+
+const selectTopic = topic => {
+	visibleCards.value = _.filter(words.value, card => (topic === 'all' ? true : card.topic === topic));
+	selectedTopic.value = topic;
+};
 
 const syncWords = async () => {
-	words.value = await getWords({ where: [{ field: 'show', operator: '==', value: true }] });
+	const wordsList = await getWords({ where: [{ field: 'show', operator: '==', value: true }] });
+	words.value = _.map(wordsList, mapCard);
+};
+
+const reset = async () => {
+	await syncWords();
+	syncTopics();
+	selectedTopic.value = null;
 };
 
 onBeforeMount(async () => {
 	await syncWords();
-	selectRandomWord();
+	syncTopics();
 });
-
-const selectRandomWord = () => {
-	if (!words.value.length) return store.commit('toggleToast', { message: 'There are no more words available' });
-
-	const wordsList = _.filter(words.value, word => word.id !== randomWord.value.id);
-	console.log({ wordsList });
-	const randomIndex = _.random(0, wordsList.length - 1);
-	console.log({ randomIndex });
-	randomWord.value = wordsList[randomIndex];
-	words.value.splice(randomIndex, 1);
-};
-
-const repeat = async () => {
-	if (words.value.length) return;
-	await syncWords();
-	selectRandomWord();
-};
-const swipeRightHandler = async () => {
-	console.log('swipeRight');
-	alert('right');
-};
-const swipeLeftHandler = () => {
-	console.log('swipeLeft');
-	alert('left');
-};
-
-const swipeHandler = direction => {
-	console.log(`Swipe: ${direction}`);
-	switch (direction) {
-		case 'right':
-			swipeRightHandler();
-			break;
-		case 'left':
-			swipeLeftHandler();
-			break;
-	}
-};
 </script>
 
 <style></style>

@@ -17,7 +17,7 @@ import { useStore } from 'vuex';
 
 const store = useStore();
 
-const headers = ['Word', 'Show'];
+const headers = ['Word', 'Show', 'Topic'];
 const items = ref([]);
 const showModal = ref(false);
 const modalData = ref({});

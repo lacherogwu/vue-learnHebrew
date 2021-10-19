@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import app from '../firebase/init.js';
-import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, getDoc, setDoc, query, where } from 'firebase/firestore/lite';
+import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, getDoc, updateDoc, query, where } from 'firebase/firestore/lite';
 
 const db = getFirestore(app);
 
@@ -23,7 +23,7 @@ const createWord = async ({ hebrewTranslation, russianTranslation, topic }) => {
 		hebrewTranslation,
 		russianTranslation,
 		show: true,
-		topic,
+		topic: _.toLower(topic),
 	});
 };
 
@@ -40,13 +40,30 @@ const getWord = async id => {
 	return { id: snapshot.id, ...snapshot.data() };
 };
 
-const updateWord = async (id, { hebrewTranslation, russianTranslation, show }) => {
+const updateWord = async (id, { hebrewTranslation, russianTranslation, topic, show }) => {
 	const ref = doc(db, 'words', id);
-	await setDoc(ref, {
+	await updateDoc(ref, {
 		hebrewTranslation,
 		russianTranslation,
+		topic,
 		show,
 	});
 };
 
-export { getWords, createWord, removeWord, getWord, updateWord };
+const getTopics = async () => {
+	const words = await getWords();
+	const topics = _(words)
+		.uniqBy('topic')
+		.map(item => item.topic)
+		.value();
+
+	return topics;
+};
+
+const unShowCard = async id => {
+	const ref = doc(db, 'words', id);
+	await updateDoc(ref, {
+		show: false,
+	});
+};
+export { getWords, createWord, removeWord, getWord, updateWord, getTopics, unShowCard };

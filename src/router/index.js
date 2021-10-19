@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Home from '../views/Home.vue';
 import About from '../views/About.vue';
 import Words from '../views/Words.vue';
 import CreateWord from '../views/CreateWord.vue';
@@ -9,11 +8,6 @@ import Learn from '../views/Learn.vue';
 const router = createRouter({
 	history: createWebHistory(),
 	routes: [
-		{
-			path: '/',
-			name: 'Home',
-			component: Home,
-		},
 		{
 			path: '/about',
 			name: 'About',
@@ -38,6 +32,13 @@ const router = createRouter({
 			path: '/learn',
 			name: 'Learn',
 			component: Learn,
+		},
+		{
+			path: '/:pathMatch(.*)*',
+			name: 'NotFound',
+			redirect: {
+				name: 'Learn',
+			},
 		},
 	],
 });

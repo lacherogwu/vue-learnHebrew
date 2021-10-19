@@ -1,29 +1,30 @@
 <template>
-	<div class="cards">
-		<GameCard v-for="(card, index) in cards" :key="card" :card="card" :is-current="index === 0" @cardAccepted="$emit('cardAccepted')" @cardRejected="$emit('cardRejected')" @cardSkipped="$emit('cardSkipped')" @hideCard="$emit('hideCard')" />
+	<div class="flex relative">
+		<GameCard
+			v-for="(card, index) in cards"
+			:key="card.customId"
+			:card="card"
+			:is-current="index === 0"
+			@cardAction="actionHandler"
+			@cardAccepted="actionHandler"
+			@cardRejected="emit('cardRejected')"
+			@cardSkipped="emit('cardSkipped')"
+			@hideCard="emit('hideCard')"
+		/>
 	</div>
 </template>
 
-<script>
+<script setup>
 import GameCard from './GameCard.vue';
 
-export default {
-	components: {
-		GameCard,
+const props = defineProps({
+	cards: {
+		type: Array,
+		required: true,
 	},
+});
 
-	props: {
-		cards: {
-			type: Array,
-			required: true,
-		},
-	},
-};
+const emit = defineEmits(['cardAccepted', 'cardRejected', 'cardSkipped', 'hideCard']);
+
+const actionHandler = (emitName, data) => emit(emitName, data);
 </script>
-
-<style lang="scss" scoped>
-.cards {
-	position: relative;
-	display: flex;
-}
-</style>

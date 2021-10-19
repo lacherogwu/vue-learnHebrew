@@ -19,7 +19,12 @@
 									<div class="text-sm text-gray-500 dark:text-gray-400">{{ item.russianTranslation }}</div>
 								</td>
 								<td class="px-6 py-4 whitespace-nowrap">
-									<span :class="`px-4 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${item.show ? 'bg-green-100 text-green-800 dark:bg-green-600 dark:text-green-100' : 'bg-red-100 text-red-800 dark:bg-red-dark dark:text-red-100'}`">{{ item.show ? 'Yes' : 'No' }}</span>
+									<span :class="`px-4 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${item.show ? 'bg-green-100 text-green-800 dark:bg-green-600 dark:text-green-100' : 'bg-red-100 text-red-800 dark:bg-red-dark dark:text-red-100'}`">{{
+										item.show ? 'Yes' : 'No'
+									}}</span>
+								</td>
+								<td class="px-6 md:py-4 whitespace-nowrap">
+									<div class="text-sm text-gray-900 dark:text-gray-100">{{ item.topic }}</div>
 								</td>
 								<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-1">
 									<router-link :to="`/words/update/${item.id}`">

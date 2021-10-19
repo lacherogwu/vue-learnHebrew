@@ -38,6 +38,25 @@
 				{{ item }}
 			</option>
 		</select>
+
+		<div v-if="element === 'autocomplete'">
+			<input
+				v-model="inputValue"
+				:id="_.camelCase(name)"
+				:type="type"
+				:placeholder="name"
+				:required="required"
+				class="shadow border rounded w-full py-4 px-6 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:border-gray-500 dark:text-gray-300"
+				@input="filterItems"
+				@click="showList = !showList"
+			/>
+			<div v-show="showList && filtered.length" class="border-b border-l border-r dark:bg-gray-700 dark:border-gray-500 dark:text-gray-300 w-full rounded-b -mt-2 overflow-scroll max-h-40">
+				<ul class="pt-2">
+					<li v-for="(item, index) in filtered" :key="index" class="cursor-pointer py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600" @click="selectItemFromList(item)">{{ item }}</li>
+				</ul>
+			</div>
+		</div>
+
 		<p v-show="errorMessage" class="text-sm mt-1 text-red-500">{{ errorMessage }}</p>
 	</div>
 </template>
@@ -49,7 +68,7 @@ export default {
 </script>
 
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import _ from 'lodash';
 import { useField } from 'vee-validate';
 
@@ -98,5 +117,24 @@ const inputValue = computed({
 		emit('update:modelValue', val);
 	},
 });
+
+// autocomplete logic
+const showList = ref(false);
+const filtered = ref(props.items);
+watch(
+	() => props.items,
+	() => {
+		if (props.element !== 'autocomplete') return;
+		filtered.value = props.items;
+	}
+);
+const filterItems = () => {
+	showList.value = true;
+	filtered.value = _.filter(props.items, item => _.startsWith(_.toLower(item), _.toLower(inputValue.value)));
+};
+const selectItemFromList = value => {
+	inputValue.value = value;
+	showList.value = false;
+};
 </script>
 <style></style>

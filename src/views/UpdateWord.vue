@@ -2,7 +2,13 @@
 	<Form v-if="!fetching" class="mb-4" :handler="handler" @success="success" title="Update word" successMessage="Word updated successfully!" submitButtonText="Update">
 		<InputField v-model="formData.hebrewTranslation" element="input" required name="Hebrew Translation" :validation="rules.hebrewLettersValidation" />
 		<InputField v-model="formData.russianTranslation" element="input" required name="Russian Translation" :validation="rules.russianLettersValidation" />
-		<div :class="`px-4 py-2 inline-flex leading-5 font-semibold rounded justify-center cursor-pointer select-none border border-gray-100 dark:border-gray-700 shadow-sm ${formData.show ? 'bg-green-100 text-green-800 dark:bg-green-600 dark:text-green-100' : 'bg-red-100 text-red-800 dark:bg-red-dark dark:text-red-100'}`" @click="formData.show = !formData.show">
+		<InputField v-model="formData.topic" element="autocomplete" required name="Topic" :items="autoCompleteItems" />
+		<div
+			:class="`px-4 py-2 inline-flex leading-5 font-semibold rounded justify-center cursor-pointer select-none border border-gray-100 dark:border-gray-700 shadow-sm ${
+				formData.show ? 'bg-green-100 text-green-800 dark:bg-green-600 dark:text-green-100' : 'bg-red-100 text-red-800 dark:bg-red-dark dark:text-red-100'
+			}`"
+			@click="formData.show = !formData.show"
+		>
 			{{ formData.show ? 'Show' : "Don't show" }}
 		</div>
 	</Form>
@@ -19,7 +25,7 @@ import { reactive, ref, onBeforeMount } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 import { resetReactive } from '../utils';
-import { getWord, updateWord } from '../api/firebase';
+import { getWord, updateWord, getTopics } from '../api/firebase';
 import VowelKeyboard from '../components/VowelKeyboard.vue';
 import { rules } from '../utils/validations.js';
 
@@ -31,8 +37,15 @@ const wordId = route.params.id;
 const formData = reactive({
 	hebrewTranslation: '',
 	russianTranslation: '',
+	topic: '',
 	show: false,
 });
+
+const autoCompleteItems = ref([]);
+
+const syncTopicList = async () => {
+	autoCompleteItems.value = await getTopics();
+};
 
 const fetching = ref(true);
 
@@ -41,12 +54,16 @@ const syncWord = async () => {
 
 	formData.hebrewTranslation = word.hebrewTranslation;
 	formData.russianTranslation = word.russianTranslation;
+	formData.topic = word.topic;
 	formData.show = word.show;
 
 	fetching.value = false;
 };
 
-onBeforeMount(syncWord);
+onBeforeMount(() => {
+	syncWord();
+	syncTopicList();
+});
 
 const handler = () => updateWord(wordId, formData);
 
