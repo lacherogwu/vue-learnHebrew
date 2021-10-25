@@ -19,7 +19,7 @@
 </template>
 
 <script setup>
-import { ref, onBeforeMount, computed } from 'vue';
+import { ref, onBeforeMount } from 'vue';
 import _ from 'lodash';
 import confetti from 'canvas-confetti';
 import GameCardsStack from '../components/GameCardsStack.vue';
