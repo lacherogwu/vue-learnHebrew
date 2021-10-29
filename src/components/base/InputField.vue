@@ -10,6 +10,8 @@
 			class="shadow border rounded w-full py-4 px-6 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:border-gray-500 dark:text-gray-300"
 			:class="{ 'ring-1': errorMessage, 'ring-red-500': errorMessage }"
 			:placeholder="name"
+			@focus="emit('focus')"
+			@blur="emit('blur')"
 		/>
 
 		<textarea
@@ -22,6 +24,7 @@
 			class="shadow border rounded w-full py-4 px-6 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:border-gray-500 dark:text-gray-300"
 			:class="{ 'ring-1': errorMessage, 'ring-red-500': errorMessage }"
 			:placeholder="name"
+			@focus="emit('focus')"
 		></textarea>
 
 		<select
@@ -49,6 +52,7 @@
 				class="shadow border rounded w-full py-4 px-6 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:border-gray-500 dark:text-gray-300"
 				@input="filterItems"
 				@click="showList = !showList"
+				@focus="emit('focus')"
 			/>
 			<div v-show="showList && filtered.length" class="border-b border-l border-r dark:bg-gray-700 dark:border-gray-500 dark:text-gray-300 w-full rounded-b -mt-2 overflow-scroll max-h-40">
 				<ul class="pt-2">
@@ -72,7 +76,7 @@ import { computed, ref, watch } from 'vue';
 import _ from 'lodash';
 import { useField } from 'vee-validate';
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'focus', 'blur']);
 const props = defineProps({
 	modelValue: {
 		type: String,

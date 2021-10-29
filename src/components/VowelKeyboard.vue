@@ -1,5 +1,5 @@
 <template>
-	<div class="bg-gray-200 dark:bg-gray-700 rounded pt-3 pb-2 px-4 justify-center shadow-sm grid grid-cols-3 md:grid-cols-6 gap-4 max-w-2xl mx-auto">
+	<div class="bg-gray-200 dark:bg-gray-700 rounded pt-3 pb-2 px-4 justify-center shadow-sm grid grid-cols-3 md:grid-cols-6 gap-x-4 gap-y-2 max-w-2xl mx-auto">
 		<div class="cursor-pointer" v-for="vowel in vowels" @click="emit('input', vowel.symbol)">
 			<div :class="`border border-gray-300 dark:border-gray-500 rounded shadow-sm text-2xl flex justify-center items-center ${vowel.class || ''}`">{{ vowel.symbol }}</div>
 			<div class="text-sm text-center">{{ vowel.name }} - {{ vowel.example }}</div>

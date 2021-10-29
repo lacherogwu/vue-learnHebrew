@@ -1,10 +1,10 @@
 <template>
 	<Form class="mb-4" :handler="handler" @success="success" title="Create new word" submitButtonText="Create" successMessage="Word added successfully!">
-		<InputField v-model="formData.hebrewTranslation" element="input" required name="Hebrew Translation" :validation="rules.hebrewLettersValidation" />
-		<InputField v-model="formData.russianTranslation" element="input" required name="Russian Translation" :validation="rules.russianLettersValidation" />
-		<InputField v-model="formData.topic" element="autocomplete" :items="autoCompleteItems" required name="Topic" />
+		<InputField v-model="formData.hebrewTranslation" element="input" required name="Hebrew Translation" :validation="rules.hebrewLettersValidation" @focus="hebrewInputFocus = true" />
+		<VowelKeyboard v-show="hebrewInputFocus" @input="vowelInput" />
+		<InputField v-model="formData.russianTranslation" element="input" required name="Russian Translation" :validation="rules.russianLettersValidation" @focus="hebrewInputFocus = false" />
+		<InputField v-model="formData.topic" element="autocomplete" :items="autoCompleteItems" required name="Topic" @focus="hebrewInputFocus = false" />
 	</Form>
-	<VowelKeyboard @input="vowelInput" />
 </template>
 
 <script setup>
@@ -20,7 +20,7 @@ const formData = reactive({
 	russianTranslation: '',
 	topic: '',
 });
-
+const hebrewInputFocus = ref(false);
 const autoCompleteItems = ref([]);
 
 const syncTopicList = async () => {

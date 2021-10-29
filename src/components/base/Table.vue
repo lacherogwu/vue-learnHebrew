@@ -13,18 +13,7 @@
 							</tr>
 						</thead>
 						<tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-700 dark:divide-gray-600">
-							<tr
-								v-for="item in items"
-								:key="items.id"
-								class="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600"
-								@click="$router.push(`/words/update/${item.id}`)"
-								@mousedown.prevent="removeItem(item)"
-								@mouseup="clear"
-								@mouseleave="clear"
-								@touchstart.prevent="removeItem(item)"
-								@touchend="clear"
-								@touchcancel="clear"
-							>
+							<tr v-for="item in items" :key="items.id" class="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600" @click="$router.push(`/words/update/${item.id}`)">
 								<td class="px-6 md:py-4 whitespace-nowrap">
 									<div class="text-sm text-gray-900 dark:text-gray-100">{{ item.hebrewTranslation }}</div>
 									<div class="text-sm text-gray-500 dark:text-gray-400">{{ item.russianTranslation }}</div>
@@ -62,7 +51,7 @@ export default {
 </script>
 
 <script setup>
-import { ref, watch } from 'vue';
+// import { ref } from 'vue';
 
 const props = defineProps({
 	headers: {
@@ -77,16 +66,16 @@ const props = defineProps({
 
 const emit = defineEmits(['action']);
 
-const timeout = ref();
+// const timeout = ref();
 
-const clear = () => {
-	clearTimeout(timeout.value);
-};
-const removeItem = item => {
-	timeout.value = setTimeout(() => {
-		emit('action', 'remove', { id: item.id });
-	}, 500);
-};
+// const clear = () => {
+// 	clearTimeout(timeout.value);
+// };
+// const removeItem = item => {
+// 	timeout.value = setTimeout(() => {
+// 		emit('action', 'remove', { id: item.id });
+// 	}, 500);
+// };
 </script>
 
 <style></style>
