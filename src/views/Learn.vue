@@ -37,12 +37,10 @@ const handleCardAccepted = ({ card }) => {
 	visibleCards.value.push(mapCard(card));
 };
 
-const handleCardRejected = async ({ card }) => {
-	await unShowCard(card.id);
-};
+const handleCardRejected = () => {};
 
-const handleCardSkipped = () => {
-	console.log('handleCardSkipped');
+const handleCardSkipped = async ({ card }) => {
+	await unShowCard(card.id);
 };
 
 const removeCardFromDeck = () => {

@@ -95,12 +95,13 @@ const playCard = interaction => {
 			emitName = REJECT_CARD;
 			// emit(REJECT_CARD);
 			break;
-		// case SKIP_CARD:
-		// 	interactSetPosition({
-		// 		y: interactOutOfSightYCoordinate,
-		// 	});
-		// 	emit(SKIP_CARD);
-		// 	break;
+		case SKIP_CARD:
+			interactSetPosition({
+				y: interactOutOfSightYCoordinate,
+			});
+			emitName = SKIP_CARD;
+			// emit(SKIP_CARD);
+			break;
 	}
 
 	emit('cardAction', emitName, { card: props.card });
@@ -150,7 +151,7 @@ onMounted(() => {
 
 			if (x > interactXThreshold) playCard(ACCEPT_CARD);
 			else if (x < -interactXThreshold) playCard(REJECT_CARD);
-			// else if (y > interactYThreshold) playCard(SKIP_CARD);
+			else if (y > interactYThreshold) playCard(SKIP_CARD);
 			else resetCardPosition();
 		},
 	});

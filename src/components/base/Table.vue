@@ -7,13 +7,13 @@
 						<thead class="bg-gray-50 dark:bg-gray-600">
 							<tr>
 								<th v-for="(item, index) in headers" :key="index" scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">{{ item }}</th>
-								<th scope="col" class="relative px-6 py-3">
+								<!-- <th scope="col" class="relative px-6 py-3">
 									<span class="sr-only">Edit</span>
-								</th>
+								</th> -->
 							</tr>
 						</thead>
 						<tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-700 dark:divide-gray-600">
-							<tr v-for="item in items" :key="items.id">
+							<tr v-for="item in items" :key="items.id" class="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600" @click="$router.push(`/words/update/${item.id}`)" @mousedown.prevent="mouseDown(item)" @mouseup="clear" @mouseleave="clear">
 								<td class="px-6 md:py-4 whitespace-nowrap">
 									<div class="text-sm text-gray-900 dark:text-gray-100">{{ item.hebrewTranslation }}</div>
 									<div class="text-sm text-gray-500 dark:text-gray-400">{{ item.russianTranslation }}</div>
@@ -26,12 +26,12 @@
 								<td class="px-6 md:py-4 whitespace-nowrap">
 									<div class="text-sm text-gray-900 dark:text-gray-100">#{{ item.topic }}</div>
 								</td>
-								<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-1">
+								<!-- <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-1">
 									<router-link :to="`/words/update/${item.id}`">
 										<FontAwesomeIcon icon="edit" class="text-indigo-600 hover:text-indigo-800 dark:text-indigo-500" size="sm" />
 									</router-link>
 									<FontAwesomeIcon icon="trash" class="text-red-500 hover:text-red-600 cursor-pointer" size="sm" @click="emit('action', 'remove', { id: item.id })" />
-								</td>
+								</td> -->
 							</tr>
 						</tbody>
 					</table>
@@ -51,6 +51,8 @@ export default {
 </script>
 
 <script setup>
+import { ref, watch } from 'vue';
+
 const props = defineProps({
 	headers: {
 		type: Array,
@@ -63,6 +65,17 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['action']);
+
+const timeout = ref();
+
+const clear = () => {
+	clearTimeout(timeout.value);
+};
+const mouseDown = item => {
+	timeout.value = setTimeout(() => {
+		emit('action', 'remove', { id: item.id });
+	}, 500);
+};
 </script>
 
 <style></style>

@@ -24,7 +24,9 @@
 
 [ ] Show picture when all words completed
 
-[ ] add login & register
+[ ] Add login & register
+
+[ ] Add daily progress
 
 ## Database Schema
 
