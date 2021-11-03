@@ -62,13 +62,13 @@ const submit = async () => {
 	try {
 		const response = await props.handler();
 		emit('success', response);
-		store.commit('toggleToast', { message: props.successMessage });
+		if (props.successMessage) store.commit('toggleToast', { message: props.successMessage });
 
 		// feedback.value = props.successMessage;
 		meta.value.valid = false;
 	} catch (err) {
 		console.log(err);
-		store.commit('toggleToast', { message: 'Something went wrong!', error: true });
+		store.commit('toggleToast', { message: err.message || 'Something went wrong!', error: true });
 
 		// isError.value = true;
 		// feedback.value = err?.response?.data?.message || 'Something went wrong!';

@@ -11,8 +11,8 @@
 		@click="showTranslation = !showTranslation"
 	>
 		<div class="text-sm text-gray-200">#{{ card.topic }}</div>
-		<h3 class="mb-2 text-5xl">{{ card.hebrewTranslation }}</h3>
-		<div :class="{ invisible: !showTranslation }">{{ card.russianTranslation }}</div>
+		<h3 class="mb-2 text-5xl">{{ card.word }}</h3>
+		<div :class="{ invisible: !showTranslation }">{{ card.translation }}</div>
 	</div>
 </template>
 

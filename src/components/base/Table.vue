@@ -15,8 +15,8 @@
 						<tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-700 dark:divide-gray-600">
 							<tr v-for="item in items" :key="items.id" class="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600" @click="$router.push(`/words/update/${item.id}`)">
 								<td class="px-6 md:py-4 whitespace-nowrap">
-									<div class="text-sm text-gray-900 dark:text-gray-100">{{ item.hebrewTranslation }}</div>
-									<div class="text-sm text-gray-500 dark:text-gray-400">{{ item.russianTranslation }}</div>
+									<div class="text-sm text-gray-900 dark:text-gray-100">{{ item.word }}</div>
+									<div class="text-sm text-gray-500 dark:text-gray-400">{{ item.translation }}</div>
 								</td>
 								<td class="px-6 py-4 whitespace-nowrap">
 									<span :class="`px-4 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${item.show ? 'bg-green-100 text-green-800 dark:bg-green-600 dark:text-green-100' : 'bg-red-100 text-red-800 dark:bg-red-dark dark:text-red-100'}`">{{

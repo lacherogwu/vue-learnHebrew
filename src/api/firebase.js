@@ -1,15 +1,19 @@
 import _ from 'lodash';
 import app from '../firebase/init.js';
-import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, getDoc, updateDoc, query, where } from 'firebase/firestore/lite';
+import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, getDoc, updateDoc, query, where, setDoc } from 'firebase/firestore/lite';
+import store from '../store';
 
 const db = getFirestore(app);
 
 const getCollection = collectionName => collection(db, collectionName);
 
 const getWords = async (options = { where: [] }) => {
+	const { loggedInUser: username } = store.state;
+	if (!username) return;
+
 	const whereQuery = _.map(options.where, item => where(item.field, item.operator, item.value));
 	const collection = getCollection('words');
-	const q = query(collection, ...whereQuery);
+	const q = query(collection, ...whereQuery, where('username', '==', username));
 
 	const snapshot = await getDocs(q);
 
@@ -17,13 +21,17 @@ const getWords = async (options = { where: [] }) => {
 	return items;
 };
 
-const createWord = async ({ hebrewTranslation, russianTranslation, topic }) => {
+const createWord = async ({ word, translation, topic }) => {
+	const { loggedInUser: username } = store.state;
+	if (!username) return;
+
 	const collection = getCollection('words');
 	await addDoc(collection, {
-		hebrewTranslation,
-		russianTranslation,
+		word,
+		translation,
 		show: true,
 		topic: _.toLower(topic),
+		username,
 	});
 };
 
@@ -40,11 +48,11 @@ const getWord = async id => {
 	return { id: snapshot.id, ...snapshot.data() };
 };
 
-const updateWord = async (id, { hebrewTranslation, russianTranslation, topic, show }) => {
+const updateWord = async (id, { word, translation, topic, show }) => {
 	const ref = doc(db, 'words', id);
 	await updateDoc(ref, {
-		hebrewTranslation,
-		russianTranslation,
+		word,
+		translation,
 		topic,
 		show,
 	});
@@ -66,4 +74,48 @@ const unShowCard = async id => {
 		show: false,
 	});
 };
-export { getWords, createWord, removeWord, getWord, updateWord, getTopics, unShowCard };
+
+const signup = async (username, password) => {
+	username = _.toLower(username);
+	const collection = getCollection('users');
+	const q = query(collection, where('username', '==', username));
+	const snapshot = await getDocs(q);
+
+	if (!snapshot.empty) throw new Error('User already exists');
+
+	await addDoc(collection, {
+		username,
+		password,
+	});
+};
+
+const login = async (username, password) => {
+	username = _.toLower(username);
+	const collection = getCollection('users');
+	const q = query(collection, where('username', '==', username), where('password', '==', password));
+	const snapshot = await getDocs(q);
+
+	if (snapshot.empty) throw new Error('Username or password is invalid');
+};
+
+// const script = async () => {
+// 	const collection = getCollection('words');
+// 	const q = query(collection);
+
+// 	const snapshot = await getDocs(q);
+
+// 	const items = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+
+// 	console.log(JSON.stringify(items));
+// 	for (const item of items) {
+// 		const { id } = item;
+// 		// await updateDoc(doc(db, 'words', id), {
+// 		// 	username: 'asaf2',
+// 		// });
+// 	}
+
+// 	console.log({ snapshot });
+// };
+// script();
+
+export { getWords, createWord, removeWord, getWord, updateWord, getTopics, unShowCard, signup, login };

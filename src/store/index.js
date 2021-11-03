@@ -8,6 +8,7 @@ const store = createStore({
 			error: false,
 		},
 		darkMode: JSON.parse(localStorage.getItem('darkMode')),
+		loggedInUser: null,
 	}),
 	mutations: {
 		clearToast(state, data) {
@@ -30,6 +31,14 @@ const store = createStore({
 		toggleDarkMode(state) {
 			state.darkMode = !state.darkMode;
 			localStorage.setItem('darkMode', state.darkMode);
+		},
+		logout(state) {
+			localStorage.removeItem('credentials');
+			state.loggedInUser = null;
+		},
+		login(state, payload) {
+			localStorage.setItem('credentials', JSON.stringify(payload));
+			state.loggedInUser = payload.username;
 		},
 	},
 });

@@ -1,8 +1,8 @@
 <template>
 	<Form v-if="!fetching" class="mb-4" :handler="handler" @success="success" title="Update word" successMessage="Word updated successfully!" submitButtonText="Update">
-		<InputField v-model="formData.hebrewTranslation" element="input" required name="Hebrew Translation" :validation="rules.hebrewLettersValidation" @focus="hebrewInputFocus = true" />
+		<InputField v-model="formData.word" element="input" required name="Word" :validation="rules.hebrewLettersValidation" @focus="hebrewInputFocus = true" />
 		<VowelKeyboard v-show="hebrewInputFocus" @input="vowelInput" />
-		<InputField v-model="formData.russianTranslation" element="input" required name="Russian Translation" :validation="rules.russianLettersValidation" @focus="hebrewInputFocus = false" />
+		<InputField v-model="formData.translation" element="input" required name="Translation" @focus="hebrewInputFocus = false" />
 		<InputField v-model="formData.topic" element="autocomplete" required name="Topic" :items="autoCompleteItems" @focus="hebrewInputFocus = false" />
 		<div
 			:class="`px-4 py-2 inline-flex leading-5 font-semibold rounded justify-center cursor-pointer select-none border border-gray-100 dark:border-gray-700 shadow-sm ${
@@ -44,8 +44,8 @@ const store = useStore();
 const wordId = route.params.id;
 
 const formData = reactive({
-	hebrewTranslation: '',
-	russianTranslation: '',
+	word: '',
+	translation: '',
 	topic: '',
 	show: false,
 });
@@ -63,8 +63,8 @@ const fetching = ref(true);
 const syncWord = async () => {
 	const word = await getWord(wordId);
 
-	formData.hebrewTranslation = word.hebrewTranslation;
-	formData.russianTranslation = word.russianTranslation;
+	formData.word = word.word;
+	formData.translation = word.translation;
 	formData.topic = word.topic;
 	formData.show = word.show;
 
@@ -84,8 +84,8 @@ const success = data => {
 };
 
 const vowelInput = vowel => {
-	formData.hebrewTranslation += vowel;
-	const element = document.querySelector('#hebrewTranslation');
+	formData.word += vowel;
+	const element = document.querySelector('#word');
 	element.focus();
 };
 

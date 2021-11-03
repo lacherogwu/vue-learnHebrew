@@ -1,8 +1,8 @@
 <template>
 	<Form class="mb-4" :handler="handler" @success="success" title="Create new word" submitButtonText="Create" successMessage="Word added successfully!">
-		<InputField v-model="formData.hebrewTranslation" element="input" required name="Hebrew Translation" :validation="rules.hebrewLettersValidation" @focus="hebrewInputFocus = true" />
+		<InputField v-model="formData.word" element="input" required name="Word" :validation="rules.hebrewLettersValidation" @focus="hebrewInputFocus = true" />
 		<VowelKeyboard v-show="hebrewInputFocus" @input="vowelInput" />
-		<InputField v-model="formData.russianTranslation" element="input" required name="Russian Translation" :validation="rules.russianLettersValidation" @focus="hebrewInputFocus = false" />
+		<InputField v-model="formData.translation" element="input" required name="Translation" @focus="hebrewInputFocus = false" />
 		<InputField v-model="formData.topic" element="autocomplete" :items="autoCompleteItems" required name="Topic" @focus="hebrewInputFocus = false" />
 	</Form>
 </template>
@@ -16,8 +16,8 @@ import { rules } from '../utils/validations.js';
 import _ from 'lodash';
 
 const formData = reactive({
-	hebrewTranslation: '',
-	russianTranslation: '',
+	word: '',
+	translation: '',
 	topic: '',
 });
 const hebrewInputFocus = ref(false);
@@ -35,8 +35,8 @@ const success = async data => {
 };
 
 const vowelInput = vowel => {
-	formData.hebrewTranslation += vowel;
-	const element = document.querySelector('#hebrewTranslation');
+	formData.word += vowel;
+	const element = document.querySelector('#word');
 	element.focus();
 };
 
