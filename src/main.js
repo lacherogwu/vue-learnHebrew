@@ -24,6 +24,10 @@ const authenticate = async () => {
 		store.commit('logout');
 	}
 };
-await authenticate();
 
-app.use(router).mount('#app');
+const init = async () => {
+	await authenticate();
+	app.use(router).mount('#app');
+};
+
+init();
