@@ -8,7 +8,7 @@
 			<router-link class="border-b border-gray-800 dark:border-gray-100" to="/login">Login</router-link>
 			<router-link to="/signup">Signup</router-link>
 		</div>
-		<div v-if="store.state.loggedInUser">Hello, {{ store.state.loggedInUser }}!</div>
+		<div v-if="store.state.loggedInUser" class="hidden md:block">Hello, {{ store.state.loggedInUser }}!</div>
 		<div class="inline-flex space-x-2 items-center">
 			<ThemeSwitcher design="2" />
 			<div v-if="store.state.loggedInUser" class="cursor-pointer border py-1 px-2 border-black dark:border-gray-100 hover:bg-black hover:text-white dark:hover:bg-gray-100 dark:hover:text-gray-800 transition rounded" @click="logout">Logout</div>
