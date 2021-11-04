@@ -13,7 +13,7 @@ const getWords = async (options = { where: [] }) => {
 
 	const whereQuery = _.map(options.where, item => where(item.field, item.operator, item.value));
 	const collection = getCollection('words');
-	const q = query(collection, ...whereQuery, where('username', '==', username));
+	const q = query(collection, ...whereQuery, where('username', '==', _.toLower(username)));
 
 	const snapshot = await getDocs(q);
 
