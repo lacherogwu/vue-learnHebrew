@@ -28,6 +28,8 @@
 
 [ ] Add daily progress
 
+[ ] Convert to PWA
+
 ## Database Schema
 
 ### Words Table

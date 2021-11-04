@@ -98,24 +98,4 @@ const login = async (username, password) => {
 	if (snapshot.empty) throw new Error('Username or password is invalid');
 };
 
-// const script = async () => {
-// 	const collection = getCollection('words');
-// 	const q = query(collection);
-
-// 	const snapshot = await getDocs(q);
-
-// 	const items = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
-
-// 	console.log(JSON.stringify(items));
-// 	for (const item of items) {
-// 		const { id } = item;
-// 		// await updateDoc(doc(db, 'words', id), {
-// 		// 	username: 'asaf2',
-// 		// });
-// 	}
-
-// 	console.log({ snapshot });
-// };
-// script();
-
 export { getWords, createWord, removeWord, getWord, updateWord, getTopics, unShowCard, signup, login };
