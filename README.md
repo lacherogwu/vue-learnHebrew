@@ -28,7 +28,7 @@
 
 [ ] Add daily progress
 
-[ ] Convert to PWA
+[x] Convert to PWA
 
 ## Database Schema
 
