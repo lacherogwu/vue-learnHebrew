@@ -31,7 +31,7 @@ const createWord = async ({ word, translation, topic }) => {
 		translation,
 		show: true,
 		topic: _.toLower(topic),
-		username,
+		username: _.toLower(username),
 	});
 };
 
