@@ -91,7 +91,10 @@ const syncTopics = () => {
 };
 
 const selectTopic = topic => {
-	visibleCards.value = _.filter(words.value, card => (topic === 'all' ? true : card.topic === topic));
+	visibleCards.value = _(words.value)
+		.filter(card => (topic === 'all' ? true : card.topic === topic))
+		.shuffle()
+		.value();
 	selectedTopic.value = topic;
 };
 
